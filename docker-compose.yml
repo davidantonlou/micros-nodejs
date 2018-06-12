@@ -1,0 +1,26 @@
+version: '3.2'
+services:
+  micro-tradies:
+    build: ./micro-tradies
+    ports:
+     - "8124:8124"
+    depends_on:
+     - db
+    environment:
+     - DATABASE_HOST=db
+
+  micro-jobs:
+    build: ./micro-jobs
+    ports:
+     - "8125:8125"
+    depends_on:
+     - db
+     - micro-tradies
+    environment:
+     - DATABASE_HOST=db
+
+  db:
+    build: ./mysql-database
+
+networks:
+  {micro_network:{}}
